@@ -9,13 +9,13 @@ const io = socketio(server);
 io.on('connection', (socket) => {
     console.log('a user connected');
 
-    socket.on('from_client', ()=>{
-        console.log("Recieving event from client");
+    socket.on('msg_send', (data)=>{
+        console.log(data);
+        io.emit('msg_rcvd', data);      // sends data to all web socket connection that exists with my web socket server
+        // socket.emit('msg_rcvd', data);       // its for the same client.. other clients will not recieve those messages
+        // socket.broadcast.emit('msg_rcvd', data);     // other client recieves messages but not you
     })
 
-    setInterval(()=>{
-        socket.emit('from_server');
-    },100000 );
 });
   
 
